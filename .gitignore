@@ -47,3 +47,4 @@ app.*.map.json
 *.jks
 *.keystore
 key.properties
+test_shots/

@@ -35,8 +35,8 @@ class HomeTab extends StatelessWidget {
         final e = id.isEmpty ? <Entry>[] : entriesFor(tpl(id), now);
         return ListView(padding: const EdgeInsets.fromLTRB(18, 14, 18, 110), children: [
           Row(children: [
-            Expanded(child: Text('${tr('Hello')}${Store.name.isEmpty ? '' : ', ${Store.name}'}', style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: dark))),
-            IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SchedulePage())), icon: const Icon(Icons.calendar_month, color: dark)),
+            Expanded(child: Text('${tr('Hello')}${Store.name.isEmpty ? '' : ', ${Store.name}'}', style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: ink))),
+            IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SchedulePage())), icon: const Icon(Icons.calendar_month, color: ink)),
           ]),
           const SizedBox(height: 6),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -51,32 +51,35 @@ class HomeTab extends StatelessWidget {
             Expanded(child: Pill(tr('At the gym'), on: Store.mode == 'gym', onTap: () => Store.setProfile(mode: 'gym'))),
           ]),
           const SizedBox(height: 8),
-          Pad(color: dark, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [Text(tr('Program progress'), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 16)), const Spacer(), Text('$progDone/$programTotal', style: const TextStyle(color: lime, fontWeight: FontWeight.w900))]),
-            const SizedBox(height: 12),
-            ClipRRect(borderRadius: BorderRadius.circular(10), child: LinearProgressIndicator(value: prog, minHeight: 12, color: lime, backgroundColor: Colors.white24)),
+          Pad(color: lime, child: Row(children: [
+            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(tr('Program progress'), style: const TextStyle(color: dark, fontWeight: FontWeight.w800, fontSize: 16)),
+              const SizedBox(height: 6),
+              Text('$progDone/$programTotal', style: const TextStyle(color: dark, fontWeight: FontWeight.w900, fontSize: 34)),
+            ])),
+            Ring(prog, size: 92, color: dark, track: const Color(0x33000000), child: Text('${(prog * 100).round()}%', style: const TextStyle(color: dark, fontWeight: FontWeight.w900, fontSize: 18))),
           ])),
           const SizedBox(height: 4),
           Heading(tr("Today's workout")),
           const SizedBox(height: 10),
           if (id.isEmpty)
-            Pad(child: Row(children: [const Icon(Icons.self_improvement, color: dark, size: 34), const SizedBox(width: 12), Expanded(child: Text(tr('Rest day'), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800)))]))
+            Pad(child: Row(children: [const Icon(Icons.self_improvement, color: ink, size: 34), const SizedBox(width: 12), Expanded(child: Text(tr('Rest day'), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800)))]))
           else
             Pad(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(tr(tpl(id).title), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: dark)),
+              Text(tr(tpl(id).title), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: ink)),
               Text('${e.length} ${tr('exercises')} · ${tpl(id).mins} ${tr('min')}', style: const TextStyle(color: muted)),
               const SizedBox(height: 12),
               SizedBox(height: 86, child: ListView(scrollDirection: Axis.horizontal, children: [for (final x in e) Padding(padding: const EdgeInsetsDirectional.only(end: 8), child: ExAnim(Data.byId[x.id]!, animate: false, size: 86))])),
               const SizedBox(height: 14),
-              SizedBox(width: double.infinity, child: FilledButton(style: FilledButton.styleFrom(backgroundColor: lime, foregroundColor: dark, padding: const EdgeInsets.symmetric(vertical: 15), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))), onPressed: () => startWorkout(context, tpl(id), now, program: true), child: Text(tr('Start workout'), style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16)))),
+              SizedBox(width: double.infinity, child: Pressable(child: FilledButton(style: FilledButton.styleFrom(backgroundColor: lime, foregroundColor: dark, padding: const EdgeInsets.symmetric(vertical: 15), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))), onPressed: () => startWorkout(context, tpl(id), now, program: true), child: Text(tr('Start workout'), style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16))))),
             ])),
           const SizedBox(height: 6),
           Heading(tr('Quick workouts')),
           const SizedBox(height: 10),
           SizedBox(height: 120, child: ListView(scrollDirection: Axis.horizontal, children: [
             for (final t in templates.where((t) => t.id != id)) SizedBox(width: 160, child: Pad(margin: const EdgeInsetsDirectional.only(end: 10), onTap: () => startWorkout(context, t, now), child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(tr(t.title), maxLines: 2, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 15, color: dark)),
-              Row(children: [const Icon(Icons.play_circle_fill, color: dark), const SizedBox(width: 6), Text('${t.mins} ${tr('min')}', style: const TextStyle(color: muted))]),
+              Text(tr(t.title), maxLines: 2, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 15, color: ink)),
+              Row(children: [const Icon(Icons.play_circle_fill, color: ink), const SizedBox(width: 6), Text('${t.mins} ${tr('min')}', style: const TextStyle(color: muted))]),
             ]))),
           ])),
         ]);
@@ -118,7 +121,7 @@ class _ExploreTabState extends State<ExploreTab> {
           const SizedBox(height: 8),
           Heading(tr('Exercise library')),
           const SizedBox(height: 10),
-          TextField(onChanged: (v) => setState(() => q = v), decoration: InputDecoration(hintText: tr('Search exercises'), prefixIcon: const Icon(Icons.search), filled: true, fillColor: Colors.white, border: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide.none))),
+          TextField(onChanged: (v) => setState(() => q = v), decoration: InputDecoration(hintText: tr('Search exercises'), prefixIcon: const Icon(Icons.search), filled: true, fillColor: card, border: OutlineInputBorder(borderRadius: BorderRadius.circular(30), borderSide: BorderSide.none))),
           const SizedBox(height: 10),
           SingleChildScrollView(scrollDirection: Axis.horizontal, child: Row(children: [Pill(tr('All'), on: bp.isEmpty, onTap: () => setState(() => bp = '')), for (final p in parts) Pill(tl(p), on: bp == p, onTap: () => setState(() => bp = p))])),
           const SizedBox(height: 10),
@@ -138,7 +141,7 @@ class ExDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: bgGreen,
-        appBar: AppBar(backgroundColor: bgGreen, elevation: 0, foregroundColor: dark, title: Text(e.cap, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16))),
+        appBar: AppBar(backgroundColor: bgGreen, elevation: 0, foregroundColor: ink, title: Text(e.cap, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16))),
         body: ListView(padding: const EdgeInsets.all(18), children: [
           ExAnim(e),
           const SizedBox(height: 14),
@@ -171,16 +174,16 @@ class ActivityTab extends StatelessWidget {
         final sched = Store.scheds;
         int sum(int Function(Session) f) => all.fold(0, (a, s) => a + f(s));
         return ListView(padding: const EdgeInsets.fromLTRB(18, 14, 18, 110), children: [
-          Row(children: [Expanded(child: Heading(tr('Activity'), size: 26)), IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SchedulePage())), icon: const Icon(Icons.calendar_month, color: dark))]),
+          Row(children: [Expanded(child: Heading(tr('Activity'), size: 26)), IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SchedulePage())), icon: const Icon(Icons.calendar_month, color: ink))]),
           const SizedBox(height: 10),
-          Pad(color: dark, child: Row(children: [
-            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(tr('Days active this month'), style: const TextStyle(color: Colors.white70)), const SizedBox(height: 6), Text('${month.map((s) => s.date).toSet().length}', style: const TextStyle(color: lime, fontSize: 40, fontWeight: FontWeight.w900))])),
-            const Icon(Icons.local_fire_department, color: lime, size: 48),
+          Pad(color: panel, child: Row(children: [
+            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(tr('Days active this month'), style: const TextStyle(color: muted)), const SizedBox(height: 6), Text('${month.map((s) => s.date).toSet().length}', style: const TextStyle(color: lime, fontSize: 40, fontWeight: FontWeight.w900))])),
+            Ring((month.map((x) => x.date).toSet().length / 20).clamp(0.0, 1.0), size: 84, color: lav, child: const Icon(Icons.local_fire_department, color: lime, size: 30)),
           ])),
           Heading(tr("Today's sessions")),
           const SizedBox(height: 8),
           if (today.isEmpty) Pad(child: Text(tr('No sessions yet'), style: const TextStyle(color: muted))),
-          for (final s in today) Pad(margin: const EdgeInsets.only(bottom: 8), child: Row(children: [const Icon(Icons.check_circle, color: dark), const SizedBox(width: 10), Expanded(child: Text(s.name, style: const TextStyle(fontWeight: FontWeight.w800))), Text('${s.mins} ${tr('min')}', style: const TextStyle(color: muted))])),
+          for (final s in today) Pad(margin: const EdgeInsets.only(bottom: 8), child: Row(children: [const Icon(Icons.check_circle, color: ink), const SizedBox(width: 10), Expanded(child: Text(s.name, style: const TextStyle(fontWeight: FontWeight.w800))), Text('${s.mins} ${tr('min')}', style: const TextStyle(color: muted))])),
           const SizedBox(height: 8),
           Heading(tr('Weekly adherence')),
           const SizedBox(height: 8),
@@ -199,7 +202,7 @@ class ActivityTab extends StatelessWidget {
           const SizedBox(height: 8),
           GridView.count(crossAxisCount: 2, shrinkWrap: true, physics: const NeverScrollableScrollPhysics(), childAspectRatio: 1.9, mainAxisSpacing: 10, crossAxisSpacing: 10, children: [
             for (final t in [(tr('Sessions'), all.length), (tr('Minutes'), sum((s) => s.mins)), (tr('Sets'), sum((s) => s.sets)), (tr('Reps'), sum((s) => s.reps))])
-              Container(padding: const EdgeInsets.all(14), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(22)), child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [Text('${t.$2}', style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: dark)), Text(t.$1, style: const TextStyle(color: muted))])),
+              Container(padding: const EdgeInsets.all(14), decoration: BoxDecoration(color: card, borderRadius: BorderRadius.circular(22)), child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [Text('${t.$2}', style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: ink)), Text(t.$1, style: const TextStyle(color: muted))])),
           ]),
         ]);
       });
@@ -249,7 +252,7 @@ class _SchedulePageState extends State<SchedulePage> {
     final week = mondayOf(DateTime.now());
     return Scaffold(
       backgroundColor: bgGreen,
-      appBar: AppBar(backgroundColor: bgGreen, elevation: 0, foregroundColor: dark, title: Text(tr('Schedule'), style: const TextStyle(fontWeight: FontWeight.w900))),
+      appBar: AppBar(backgroundColor: bgGreen, elevation: 0, foregroundColor: ink, title: Text(tr('Schedule'), style: const TextStyle(fontWeight: FontWeight.w900))),
       floatingActionButton: FloatingActionButton.extended(backgroundColor: lime, foregroundColor: dark, onPressed: add, icon: const Icon(Icons.add), label: Text(tr('Add schedule'))),
       body: ListView(padding: const EdgeInsets.fromLTRB(18, 4, 18, 100), children: [
         Row(children: [
@@ -270,8 +273,8 @@ class _SchedulePageState extends State<SchedulePage> {
         const SizedBox(height: 8),
         Heading(dkey(sel)),
         const SizedBox(height: 8),
-        if (planFor(sel).isNotEmpty) Pad(margin: const EdgeInsets.only(bottom: 8), child: Row(children: [const Icon(Icons.flag, color: dark), const SizedBox(width: 10), Expanded(child: Text('${tr('Program')}: ${tr(tpl(planFor(sel)).title)}', style: const TextStyle(fontWeight: FontWeight.w800)))])),
-        for (final s in selScheds) Pad(margin: const EdgeInsets.only(bottom: 8), child: Row(children: [const Icon(Icons.event, color: dark), const SizedBox(width: 10), Expanded(child: Text('${tr(tpl(s.tpl).title)}${s.time.isEmpty ? '' : ' · ${s.time}'}', style: const TextStyle(fontWeight: FontWeight.w800))), IconButton(onPressed: () async { await Store.removeSched(s); setState(() {}); }, icon: const Icon(Icons.delete_outline))])),
+        if (planFor(sel).isNotEmpty) Pad(margin: const EdgeInsets.only(bottom: 8), child: Row(children: [const Icon(Icons.flag, color: ink), const SizedBox(width: 10), Expanded(child: Text('${tr('Program')}: ${tr(tpl(planFor(sel)).title)}', style: const TextStyle(fontWeight: FontWeight.w800)))])),
+        for (final s in selScheds) Pad(margin: const EdgeInsets.only(bottom: 8), child: Row(children: [const Icon(Icons.event, color: ink), const SizedBox(width: 10), Expanded(child: Text('${tr(tpl(s.tpl).title)}${s.time.isEmpty ? '' : ' · ${s.time}'}', style: const TextStyle(fontWeight: FontWeight.w800))), IconButton(onPressed: () async { await Store.removeSched(s); setState(() {}); }, icon: const Icon(Icons.delete_outline))])),
         for (final s in selDone) Pad(margin: const EdgeInsets.only(bottom: 8), child: Row(children: [const Icon(Icons.check_circle, color: Color(0xFF6BA000)), const SizedBox(width: 10), Expanded(child: Text(s.name, style: const TextStyle(fontWeight: FontWeight.w800))), Text(tr('Done'), style: const TextStyle(color: muted))])),
         if (planFor(sel).isEmpty && selScheds.isEmpty && selDone.isEmpty) Pad(child: Text(tr('Nothing scheduled'), style: const TextStyle(color: muted))),
         const SizedBox(height: 8),
@@ -349,16 +352,16 @@ class _PlayerState extends State<Player> {
   @override
   Widget build(BuildContext context) {
     if (finished) {
-      return Scaffold(backgroundColor: dark, body: SafeArea(child: Center(child: Padding(padding: const EdgeInsets.all(28), child: Column(mainAxisSize: MainAxisSize.min, children: [
+      return Scaffold(backgroundColor: bgGreen, body: SafeArea(child: Center(child: Padding(padding: const EdgeInsets.all(28), child: Column(mainAxisSize: MainAxisSize.min, children: [
         const Icon(Icons.emoji_events, color: lime, size: 90),
         const SizedBox(height: 16),
         Text(tr('Workout complete'), style: const TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.w900)),
         const SizedBox(height: 6),
         Text(tr('Great work!'), style: const TextStyle(color: lime, fontSize: 18)),
         const SizedBox(height: 8),
-        Text('$setsDone ${tr('Sets')} · $repsDone ${tr('Reps')}', style: const TextStyle(color: Colors.white70)),
+        Text('$setsDone ${tr('Sets')} · $repsDone ${tr('Reps')}', style: const TextStyle(color: muted)),
         const SizedBox(height: 26),
-        FilledButton(style: FilledButton.styleFrom(backgroundColor: lime, foregroundColor: dark, padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14)), onPressed: () => Navigator.pop(context), child: Text(tr('Close'))),
+        Pressable(child: FilledButton(style: FilledButton.styleFrom(backgroundColor: lime, foregroundColor: dark, padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14)), onPressed: () => Navigator.pop(context), child: Text(tr('Close')))),
       ])))));
     }
     final total = widget.entries.length;
@@ -367,41 +370,49 @@ class _PlayerState extends State<Player> {
       onPopInvokedWithResult: (didPop, _) async { if (!didPop && await confirm(context, tr('Quit workout?'), '', tr('Quit'))) { timer?.cancel(); if (mounted) Navigator.pop(context); } },
       child: Scaffold(
         backgroundColor: bgGreen,
-        appBar: AppBar(backgroundColor: bgGreen, elevation: 0, foregroundColor: dark, title: Text('${idx + 1} / $total', style: const TextStyle(fontWeight: FontWeight.w900)), bottom: PreferredSize(preferredSize: const Size.fromHeight(6), child: LinearProgressIndicator(value: (idx + (set - 1) / cur.sets) / total, color: lime, backgroundColor: Colors.white, minHeight: 6))),
+        appBar: AppBar(backgroundColor: bgGreen, elevation: 0, foregroundColor: ink, title: Text('${idx + 1} / $total', style: const TextStyle(fontWeight: FontWeight.w900)), bottom: PreferredSize(preferredSize: const Size.fromHeight(6), child: LinearProgressIndicator(value: (idx + (set - 1) / cur.sets) / total, color: lime, backgroundColor: Colors.white, minHeight: 6))),
         body: resting
             ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
                 Text(tr('Rest'), style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
                 const SizedBox(height: 10),
-                Text('$rest', style: const TextStyle(fontSize: 90, fontWeight: FontWeight.w900, color: dark)),
+                Text('$rest', style: const TextStyle(fontSize: 90, fontWeight: FontWeight.w900, color: ink)),
                 const SizedBox(height: 10),
                 Row(mainAxisSize: MainAxisSize.min, children: [
-                  OutlinedButton(onPressed: () => setState(() => rest = (rest - 15).clamp(1, 600)), child: const Text('-15')),
+                  Pressable(child: OutlinedButton(onPressed: () => setState(() => rest = (rest - 15).clamp(1, 600)), child: const Text('-15'))),
                   const SizedBox(width: 10),
-                  OutlinedButton(onPressed: () => setState(() => rest += 15), child: const Text('+15')),
+                  Pressable(child: OutlinedButton(onPressed: () => setState(() => rest += 15), child: const Text('+15'))),
                 ]),
                 const SizedBox(height: 14),
-                FilledButton(style: FilledButton.styleFrom(backgroundColor: dark, foregroundColor: lime), onPressed: () { timer?.cancel(); setState(() { resting = false; advance(); }); }, child: Text(tr('Skip rest'))),
+                Pressable(child: FilledButton(style: FilledButton.styleFrom(backgroundColor: panel, foregroundColor: lime), onPressed: () { timer?.cancel(); setState(() { resting = false; advance(); }); }, child: Text(tr('Skip rest')))),
                 const SizedBox(height: 20),
                 Text('${tr('Next')}: ${(set >= cur.sets && idx + 1 < total ? Data.byId[widget.entries[idx + 1].id]! : ex).cap}', style: const TextStyle(color: muted)),
               ]))
-            : ListView(padding: const EdgeInsets.all(18), children: [
-                ExAnim(ex),
-                const SizedBox(height: 14),
-                Text(ex.cap, textAlign: TextAlign.center, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: dark)),
-                const SizedBox(height: 4),
-                Text('${tl(ex.bp)} · ${tl(ex.eq)}', textAlign: TextAlign.center, style: const TextStyle(color: muted)),
-                const SizedBox(height: 14),
-                Pad(color: dark, child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                  Column(children: [Text('${tr('Set')}', style: const TextStyle(color: Colors.white70)), Text('$set ${tr('of')} ${cur.sets}', style: const TextStyle(color: lime, fontSize: 22, fontWeight: FontWeight.w900))]),
-                  Column(children: [Text(cur.secs > 0 ? tr('sec') : tr('reps'), style: const TextStyle(color: Colors.white70)), Text(cur.secs > 0 ? (timing ? '$tleft' : '${cur.secs}') : '${cur.reps}', style: const TextStyle(color: lime, fontSize: 22, fontWeight: FontWeight.w900))]),
-                ])),
-                const SizedBox(height: 4),
-                SizedBox(width: double.infinity, child: FilledButton(
-                  style: FilledButton.styleFrom(backgroundColor: lime, foregroundColor: dark, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
-                  onPressed: timing ? null : (cur.secs > 0 ? startTimed : completeSet),
-                  child: Text(cur.secs > 0 ? tr('Start timer') : tr('Complete set'), style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
-                )),
-                if (cur.secs > 0 && !timing) TextButton(onPressed: completeSet, child: Text(tr('Complete set'))),
+            : Column(children: [
+                Expanded(child: Padding(padding: const EdgeInsets.fromLTRB(18, 4, 18, 14), child: Center(child: ExAnim(ex)))),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.fromLTRB(22, 10, 22, 22),
+                  decoration: const BoxDecoration(color: Color(0xFFF2F2F2), borderRadius: BorderRadius.vertical(top: Radius.circular(44))),
+                  child: SafeArea(top: false, child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    Container(width: 44, height: 5, decoration: BoxDecoration(color: const Color(0xFFCFCFCF), borderRadius: BorderRadius.circular(4))),
+                    const SizedBox(height: 12),
+                    Text(ex.cap, textAlign: TextAlign.center, maxLines: 2, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: dark)),
+                    Text('${tl(ex.bp)} · ${tl(ex.eq)}', textAlign: TextAlign.center, style: const TextStyle(color: Color(0xFF6B6B6B))),
+                    const SizedBox(height: 10),
+                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, crossAxisAlignment: CrossAxisAlignment.center, children: [
+                      Column(children: [Text(tr('Set'), style: const TextStyle(color: Color(0xFF6B6B6B))), Text('$set/${cur.sets}', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: dark))]),
+                      Text(cur.secs > 0 ? (timing ? '$tleft' : '${cur.secs}') : '${cur.reps}', style: const TextStyle(fontSize: 58, fontWeight: FontWeight.w900, color: dark, height: 1)),
+                      Column(children: [Text(cur.secs > 0 ? tr('sec') : tr('reps'), style: const TextStyle(color: Color(0xFF6B6B6B))), Icon(cur.secs > 0 ? Icons.timer : Icons.fitness_center, color: dark, size: 26)]),
+                    ]),
+                    const SizedBox(height: 12),
+                    SizedBox(width: double.infinity, child: Pressable(child: FilledButton(
+                      style: FilledButton.styleFrom(backgroundColor: dark, foregroundColor: lime, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
+                      onPressed: timing ? null : (cur.secs > 0 ? startTimed : completeSet),
+                      child: Text(cur.secs > 0 ? tr('Start timer') : tr('Complete set'), style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+                    ))),
+                    if (cur.secs > 0 && !timing) TextButton(onPressed: completeSet, child: Text(tr('Complete set'), style: const TextStyle(color: dark))),
+                  ])),
+                ),
               ]),
       ),
     );

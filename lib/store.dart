@@ -46,6 +46,8 @@ class Store {
     if (mode != null) await p.setString('mode', mode);
     _bump();
   }
+  static Uint8List? get photo { final s = p.getString('photo'); if (s == null || s.isEmpty) return null; try { return base64Decode(s); } catch (_) { return null; } }
+  static Future<void> setPhoto(Uint8List? b) async { if (b == null) { await p.remove('photo'); } else { await p.setString('photo', base64Encode(b)); } _bump(); }
   static Future<void> setLang(String v) async { await p.setString('lang', v); langPref.value = v; _bump(); }
   static Future<void> finishOnboarding() async { await p.setBool('onb', true); if (p.getString('start') == null) await p.setString('start', dkey(DateTime.now())); _bump(); }
 

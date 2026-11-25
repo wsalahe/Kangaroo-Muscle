@@ -16,7 +16,7 @@ bool get isAr => lang == 'ar';
 const _ar = <String, String>{
   'Home': 'الرئيسية', 'Explore': 'استكشف', 'Activity': 'النشاط', 'Coach': 'المدرب', 'More': 'المزيد',
   'Welcome': 'أهلا بك', 'Your name': 'اسمك', 'Gender': 'الجنس', 'Male': 'ذكر', 'Female': 'أنثى', 'Birth date': 'تاريخ الميلاد',
-  'Height (cm)': 'الطول (سم)', 'Weight (kg)': 'الوزن (كجم)', 'Next': 'التالي', 'Back': 'رجوع', 'Finish': 'إنهاء',
+  'Height (cm)': 'الطول (سم)', 'Weight (kg)': 'الوزن (كجم)', 'Next': 'التالي', 'Back': 'رجوع', 'About you': 'عنك', 'Your photo': 'صورتك', 'Choose photo': 'اختر صورة', 'Change photo': 'غيّر الصورة', 'Remove photo': 'احذف الصورة', 'Optional.': 'اختياري.', 'Your body': 'جسمك', 'Finish': 'إنهاء',
   'Where do you train?': 'أين تتمرن؟', 'At home': 'في المنزل', 'At the gym': 'في النادي', 'Gym': 'النادي',
   'Language': 'اللغة', 'Auto': 'تلقائي', 'Choose your language': 'اختر لغتك',
   'Your data stays on this phone.': 'بياناتك تبقى على هذا الهاتف فقط.',
